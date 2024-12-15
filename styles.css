@@ -113,6 +113,24 @@ body {
     transform: scale(0.98);
 }
 
+#repo-link {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.5rem;
+}
+
+#repo-link a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+#repo-link a:hover {
+    color: #45a049;
+    text-decoration: underline;
+}
+
 .hidden {
     display: none !important;
 }
