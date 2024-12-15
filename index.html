@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mini Adventure</title>
+        <link rel="stylesheet" href="styles.css">
+        <script type="module" src="js/main.js"></script>
+    </head>
+    <body>
+        <div id="game">
+            <div id="stats-bar">
+                <div class="stat">❤️ HP:
+                    <span id="health">100</span>/<span id="max-health">100</span></div>
+                <div class="stat">💰 Gold:
+                    <span id="gold">0</span></div>
+                <div class="stat">📊 Level:
+                    <span id="level">1</span></div>
+                <div class="stat">✨ XP:
+                    <span id="xp">0</span>/<span id="xp-needed">100</span></div>
+            </div>
+
+            <div id="game-area">
+                <div id="encounter-display">
+                    <div id="encounter-emoji">🌟</div>
+                    <div id="encounter-text">Welcome to Mini Adventure!</div>
+                </div>
+
+                <div id="countdown" class="hidden">
+                    <span id="countdown-number"></span>
+                </div>
+            </div>
+
+            <div id="stamina-bar">
+                <div class="stat">⚡ Stamina:
+                    <span id="stamina">10</span>/<span id="max-stamina">10</span></div>
+                <div id="stamina-timer">Next stamina in:
+                    <span id="next-stamina">0:00</span></div>
+            </div>
+
+            <button id="adventure-button">Adventure!</button>
+        </div>
+    </body>
+</html>
