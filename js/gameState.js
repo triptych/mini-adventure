@@ -3,6 +3,32 @@ export class GameState {
         this.loadState();
     }
 
+    playerClasses = {
+        warrior: {
+            emoji: ['⚔️', '🛡️', '🗡️', '🪓', '🔨'],
+            titles: ['the Brave', 'the Strong', 'the Mighty', 'the Valiant', 'the Bold']
+        },
+        wizard: {
+            emoji: ['🧙', '🪄', '🔮', '📚', '🎭'],
+            titles: ['the Wise', 'the Mystical', 'the Arcane', 'the Learned', 'the Sage']
+        },
+        rogue: {
+            emoji: ['🗡️', '🏹', '🎭', '🕶️', '🌑'],
+            titles: ['the Swift', 'the Silent', 'the Cunning', 'the Shadow', 'the Agile']
+        },
+        cleric: {
+            emoji: ['✨', '🕊️', '📿', '🌟', '🙏'],
+            titles: ['the Holy', 'the Divine', 'the Blessed', 'the Faithful', 'the Pure']
+        },
+        ranger: {
+            emoji: ['🏹', '🦅', '🌲', '🗺️', '🐺'],
+            titles: ['the Wild', 'the Hunter', 'the Tracker', 'the Scout', 'the Wanderer']
+        }
+    };
+
+    nameFirstParts = ['Storm', 'Dawn', 'Dusk', 'Sky', 'Star', 'Moon', 'Sun', 'Wind', 'Fire', 'Ice', 'Thunder', 'Shadow', 'Light', 'Dark', 'Silver'];
+    nameSecondParts = ['blade', 'heart', 'soul', 'spirit', 'walker', 'weaver', 'bringer', 'seeker', 'hunter', 'keeper'];
+
     defaults = {
         health: 100,
         maxHealth: 100,
@@ -14,16 +40,47 @@ export class GameState {
         lastStaminaRecharge: Date.now(),
         highestLevel: 1,
         longestRun: 0,
-        currentRun: 0
+        currentRun: 0,
+        playerClass: null,
+        playerEmoji: null,
+        playerName: null
     };
+
+    generateRandomName() {
+        const first = this.nameFirstParts[Math.floor(Math.random() * this.nameFirstParts.length)];
+        const second = this.nameSecondParts[Math.floor(Math.random() * this.nameSecondParts.length)];
+        const classInfo = this.playerClasses[this.playerClass];
+        const title = classInfo.titles[Math.floor(Math.random() * classInfo.titles.length)];
+        return `${first}${second} ${title}`;
+    }
+
+    assignRandomClass() {
+        const classes = Object.keys(this.playerClasses);
+        this.playerClass = classes[Math.floor(Math.random() * classes.length)];
+        const classInfo = this.playerClasses[this.playerClass];
+        this.playerEmoji = classInfo.emoji[Math.floor(Math.random() * classInfo.emoji.length)];
+        this.playerName = this.generateRandomName();
+    }
+
+    resetGame() {
+        Object.assign(this, this.defaults);
+        this.assignRandomClass();
+        this.calculateDerivedStats();
+        this.saveState();
+    }
 
     loadState() {
         const savedState = localStorage.getItem('gameState');
         if (savedState) {
             const loadedState = JSON.parse(savedState);
-            Object.assign(this, { ...this.defaults, ...loadedState });
+            // Check if saved state has player info, if not treat as new game
+            if (!loadedState.playerClass || !loadedState.playerEmoji || !loadedState.playerName) {
+                this.resetGame();
+            } else {
+                Object.assign(this, { ...this.defaults, ...loadedState });
+            }
         } else {
-            Object.assign(this, this.defaults);
+            this.resetGame();
         }
         this.calculateDerivedStats();
     }
@@ -40,7 +97,10 @@ export class GameState {
             lastStaminaRecharge: this.lastStaminaRecharge,
             highestLevel: this.highestLevel,
             longestRun: this.longestRun,
-            currentRun: this.currentRun
+            currentRun: this.currentRun,
+            playerClass: this.playerClass,
+            playerEmoji: this.playerEmoji,
+            playerName: this.playerName
         };
         localStorage.setItem('gameState', JSON.stringify(stateToSave));
     }
@@ -69,9 +129,12 @@ export class GameState {
     }
 
     modifyHealth(amount) {
-        this.health = Math.max(1, Math.min(this.maxHealth, this.health + amount));
+        this.health = Math.max(0, Math.min(this.maxHealth, this.health + amount));
         if (amount < 0) {
             this.currentRun = 0; // Reset run on damage
+            if (this.health === 0) {
+                this.handleDeath();
+            }
         } else {
             this.currentRun++;
             if (this.currentRun > this.longestRun) {
@@ -79,6 +142,23 @@ export class GameState {
             }
         }
         this.saveState();
+    }
+
+    handleDeath() {
+        // Keep achievement stats
+        const highestLevel = this.highestLevel;
+        const longestRun = this.longestRun;
+
+        // Reset everything else
+        Object.assign(this, this.defaults);
+
+        // Restore achievement stats
+        this.highestLevel = highestLevel;
+        this.longestRun = longestRun;
+
+        // Assign new random class and name
+        this.assignRandomClass();
+        this.calculateDerivedStats();
     }
 
     modifyGold(amount) {
@@ -118,6 +198,10 @@ export class GameState {
     }
 
     canAdventure() {
-        return this.stamina > 0 && this.health > 1;
+        return this.stamina > 0 && this.health > 0;
+    }
+
+    getShareText() {
+        return `🎮 Mini Adventure Stats:\n${this.playerEmoji} ${this.playerName}\nLevel ${this.level} ${this.playerClass}\n❤️ ${this.health}/${this.maxHealth} | 💰 ${this.gold} gold\n🏃‍♂️ Longest Run: ${this.longestRun} | 👑 Highest Level: ${this.highestLevel}`;
     }
 }

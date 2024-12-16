@@ -13,6 +13,12 @@
 
             <div id="game-panel" class="panel-front">
                 <div class="panel-content front">
+                    <div id="player-info">
+                        <span id="player-emoji">🌟</span>
+                        <span id="player-name">Adventurer</span>
+                        <span id="player-class">Unknown</span>
+                    </div>
+
                     <div id="stats-bar">
                         <div class="stat">❤️ HP:
                             <span id="health">100</span>/<span id="max-health">100</span></div>
@@ -46,6 +52,15 @@
                 </div>
                 <div class="panel-content back">
                     <h2>Player Stats</h2>
+                    <div class="player-stats">
+                        <div class="stat">
+                            <span id="player-emoji-stats"></span>
+                            <span id="player-name-stats"></span>
+                        </div>
+                        <div class="stat">Class:
+                            <span id="player-class-stats"></span>
+                        </div>
+                    </div>
                     <div class="achievement">
                         <div class="stat">🏆 Highest Level:
                             <span id="highest-level">1</span></div>
@@ -55,6 +70,8 @@
                     <div class="save-load-buttons">
                         <button id="save-button">💾 Save Game</button>
                         <button id="load-button">📂 Load Game</button>
+                        <button id="new-game-button">🎲 New Game</button>
+                        <button id="share-button">📤 Share Stats</button>
                     </div>
                 </div>
             </div>

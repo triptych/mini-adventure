@@ -22,6 +22,14 @@ export class UIManager {
         this.highestLevelEl = document.getElementById('highest-level');
         this.longestRunEl = document.getElementById('longest-run');
 
+        // Player info elements
+        this.playerEmojiEl = document.getElementById('player-emoji');
+        this.playerNameEl = document.getElementById('player-name');
+        this.playerClassEl = document.getElementById('player-class');
+        this.playerEmojiStatsEl = document.getElementById('player-emoji-stats');
+        this.playerNameStatsEl = document.getElementById('player-name-stats');
+        this.playerClassStatsEl = document.getElementById('player-class-stats');
+
         // Game area elements
         this.encounterEmojiEl = document.getElementById('encounter-emoji');
         this.encounterTextEl = document.getElementById('encounter-text');
@@ -36,6 +44,8 @@ export class UIManager {
         this.gamePanel = document.getElementById('game-panel');
         this.saveButton = document.getElementById('save-button');
         this.loadButton = document.getElementById('load-button');
+        this.newGameButton = document.getElementById('new-game-button');
+        this.shareButton = document.getElementById('share-button');
     }
 
     setupStatsPanel() {
@@ -57,6 +67,47 @@ export class UIManager {
             this.encounterTextEl.textContent = 'Game loaded successfully!';
             this.gamePanel.classList.remove('flipped');
         });
+
+        this.newGameButton.addEventListener('click', () => {
+            if (confirm('Start a new game? This will reset all progress!')) {
+                this.gameState.resetGame();
+                this.updateUI();
+                this.encounterEmojiEl.textContent = '🎲';
+                this.encounterTextEl.textContent = `A new adventure begins! Welcome, ${this.gameState.playerName}!`;
+                this.gamePanel.classList.remove('flipped');
+            }
+        });
+
+        this.shareButton.addEventListener('click', async () => {
+            const shareText = this.gameState.getShareText();
+
+            try {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'Mini Adventure Stats',
+                        text: shareText
+                    });
+                } else {
+                    await navigator.clipboard.writeText(shareText);
+                    this.encounterEmojiEl.textContent = '📋';
+                    this.encounterTextEl.textContent = 'Stats copied to clipboard!';
+                }
+            } catch (err) {
+                console.error('Share failed:', err);
+                // Fallback to clipboard
+                try {
+                    await navigator.clipboard.writeText(shareText);
+                    this.encounterEmojiEl.textContent = '📋';
+                    this.encounterTextEl.textContent = 'Stats copied to clipboard!';
+                } catch (clipErr) {
+                    console.error('Clipboard failed:', clipErr);
+                    this.encounterEmojiEl.textContent = '❌';
+                    this.encounterTextEl.textContent = 'Failed to share stats';
+                }
+            }
+
+            this.gamePanel.classList.remove('flipped');
+        });
     }
 
     updateUI() {
@@ -73,6 +124,20 @@ export class UIManager {
         // Update achievement stats
         this.highestLevelEl.textContent = this.gameState.highestLevel;
         this.longestRunEl.textContent = this.gameState.longestRun;
+
+        // Update player info
+        if (this.playerEmojiEl) {
+            this.playerEmojiEl.textContent = this.gameState.playerEmoji;
+            this.playerNameEl.textContent = this.gameState.playerName;
+            this.playerClassEl.textContent = this.gameState.playerClass;
+        }
+
+        // Update player stats panel
+        if (this.playerEmojiStatsEl) {
+            this.playerEmojiStatsEl.textContent = this.gameState.playerEmoji;
+            this.playerNameStatsEl.textContent = this.gameState.playerName;
+            this.playerClassStatsEl.textContent = this.gameState.playerClass;
+        }
 
         // Update button state
         this.adventureButton.disabled = !this.gameState.canAdventure();
