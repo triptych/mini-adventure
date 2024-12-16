@@ -9,6 +9,7 @@ A simple yet engaging browser-based adventure game where players can embark on r
 - Stats tracking (Health, Gold, Level, XP)
 - Level progression system
 - Simple and intuitive user interface
+- Browser-based gameplay, no installation required
 
 ## How to Play
 
