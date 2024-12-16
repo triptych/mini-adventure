@@ -11,7 +11,10 @@ export class GameState {
         gold: 0,
         level: 1,
         xp: 0,
-        lastStaminaRecharge: Date.now()
+        lastStaminaRecharge: Date.now(),
+        highestLevel: 1,
+        longestRun: 0,
+        currentRun: 0
     };
 
     loadState() {
@@ -34,7 +37,10 @@ export class GameState {
             gold: this.gold,
             level: this.level,
             xp: this.xp,
-            lastStaminaRecharge: this.lastStaminaRecharge
+            lastStaminaRecharge: this.lastStaminaRecharge,
+            highestLevel: this.highestLevel,
+            longestRun: this.longestRun,
+            currentRun: this.currentRun
         };
         localStorage.setItem('gameState', JSON.stringify(stateToSave));
     }
@@ -54,6 +60,9 @@ export class GameState {
 
     levelUp() {
         this.level += 1;
+        if (this.level > this.highestLevel) {
+            this.highestLevel = this.level;
+        }
         this.xp -= this.xpNeeded;
         this.calculateDerivedStats();
         this.health = this.maxHealth; // Full heal on level up
@@ -61,6 +70,14 @@ export class GameState {
 
     modifyHealth(amount) {
         this.health = Math.max(1, Math.min(this.maxHealth, this.health + amount));
+        if (amount < 0) {
+            this.currentRun = 0; // Reset run on damage
+        } else {
+            this.currentRun++;
+            if (this.currentRun > this.longestRun) {
+                this.longestRun = this.currentRun;
+            }
+        }
         this.saveState();
     }
 

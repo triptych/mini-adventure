@@ -3,6 +3,7 @@ export class UIManager {
         this.gameState = gameState;
         this.initializeElements();
         this.updateUI();
+        this.setupStatsPanel();
     }
 
     initializeElements() {
@@ -17,6 +18,10 @@ export class UIManager {
         this.maxStaminaEl = document.getElementById('max-stamina');
         this.nextStaminaEl = document.getElementById('next-stamina');
 
+        // Achievement stats
+        this.highestLevelEl = document.getElementById('highest-level');
+        this.longestRunEl = document.getElementById('longest-run');
+
         // Game area elements
         this.encounterEmojiEl = document.getElementById('encounter-emoji');
         this.encounterTextEl = document.getElementById('encounter-text');
@@ -25,6 +30,33 @@ export class UIManager {
 
         // Button
         this.adventureButton = document.getElementById('adventure-button');
+
+        // Stats panel elements
+        this.statsButton = document.getElementById('stats-button');
+        this.gamePanel = document.getElementById('game-panel');
+        this.saveButton = document.getElementById('save-button');
+        this.loadButton = document.getElementById('load-button');
+    }
+
+    setupStatsPanel() {
+        this.statsButton.addEventListener('click', () => {
+            this.gamePanel.classList.toggle('flipped');
+        });
+
+        this.saveButton.addEventListener('click', () => {
+            this.gameState.saveState();
+            this.encounterEmojiEl.textContent = '💾';
+            this.encounterTextEl.textContent = 'Game saved successfully!';
+            this.gamePanel.classList.remove('flipped');
+        });
+
+        this.loadButton.addEventListener('click', () => {
+            this.gameState.loadState();
+            this.updateUI();
+            this.encounterEmojiEl.textContent = '📂';
+            this.encounterTextEl.textContent = 'Game loaded successfully!';
+            this.gamePanel.classList.remove('flipped');
+        });
     }
 
     updateUI() {
@@ -37,6 +69,10 @@ export class UIManager {
         this.xpNeededEl.textContent = this.gameState.xpNeeded;
         this.staminaEl.textContent = this.gameState.stamina;
         this.maxStaminaEl.textContent = this.gameState.maxStamina;
+
+        // Update achievement stats
+        this.highestLevelEl.textContent = this.gameState.highestLevel;
+        this.longestRunEl.textContent = this.gameState.longestRun;
 
         // Update button state
         this.adventureButton.disabled = !this.gameState.canAdventure();

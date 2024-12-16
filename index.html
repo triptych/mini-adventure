@@ -9,36 +9,55 @@
     </head>
     <body>
         <div id="game">
-            <div id="stats-bar">
-                <div class="stat">❤️ HP:
-                    <span id="health">100</span>/<span id="max-health">100</span></div>
-                <div class="stat">💰 Gold:
-                    <span id="gold">0</span></div>
-                <div class="stat">📊 Level:
-                    <span id="level">1</span></div>
-                <div class="stat">✨ XP:
-                    <span id="xp">0</span>/<span id="xp-needed">100</span></div>
-            </div>
+            <div id="stats-button">📊</div>
 
-            <div id="game-area">
-                <div id="encounter-display">
-                    <div id="encounter-emoji">🌟</div>
-                    <div id="encounter-text">Welcome to Mini Adventure!</div>
+            <div id="game-panel" class="panel-front">
+                <div class="panel-content front">
+                    <div id="stats-bar">
+                        <div class="stat">❤️ HP:
+                            <span id="health">100</span>/<span id="max-health">100</span></div>
+                        <div class="stat">💰 Gold:
+                            <span id="gold">0</span></div>
+                        <div class="stat">📊 Level:
+                            <span id="level">1</span></div>
+                        <div class="stat">✨ XP:
+                            <span id="xp">0</span>/<span id="xp-needed">100</span></div>
+                    </div>
+
+                    <div id="game-area">
+                        <div id="encounter-display">
+                            <div id="encounter-emoji">🌟</div>
+                            <div id="encounter-text">Welcome to Mini Adventure!</div>
+                        </div>
+
+                        <div id="countdown" class="hidden">
+                            <span id="countdown-number"></span>
+                        </div>
+                    </div>
+
+                    <div id="stamina-bar">
+                        <div class="stat">⚡ Stamina:
+                            <span id="stamina">10</span>/<span id="max-stamina">10</span></div>
+                        <div id="stamina-timer">Next stamina in:
+                            <span id="next-stamina">0:00</span></div>
+                    </div>
+
+                    <button id="adventure-button">Adventure!</button>
                 </div>
-
-                <div id="countdown" class="hidden">
-                    <span id="countdown-number"></span>
+                <div class="panel-content back">
+                    <h2>Player Stats</h2>
+                    <div class="achievement">
+                        <div class="stat">🏆 Highest Level:
+                            <span id="highest-level">1</span></div>
+                        <div class="stat">🏃 Longest Run:
+                            <span id="longest-run">0</span></div>
+                    </div>
+                    <div class="save-load-buttons">
+                        <button id="save-button">💾 Save Game</button>
+                        <button id="load-button">📂 Load Game</button>
+                    </div>
                 </div>
             </div>
-
-            <div id="stamina-bar">
-                <div class="stat">⚡ Stamina:
-                    <span id="stamina">10</span>/<span id="max-stamina">10</span></div>
-                <div id="stamina-timer">Next stamina in:
-                    <span id="next-stamina">0:00</span></div>
-            </div>
-
-            <button id="adventure-button">Adventure!</button>
 
             <div id="repo-link">
                 <a href="https://github.com/triptych/mini-adventure" target="_blank">View on GitHub</a>
