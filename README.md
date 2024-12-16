@@ -4,12 +4,32 @@ A simple yet engaging browser-based adventure game where players can embark on r
 
 ## Features
 
+- Character Classes System
+  - Choose from Warrior, Wizard, Rogue, Cleric, or Ranger
+  - Each class has unique emojis and titles
+  - Procedurally generated character names
 - Real-time stamina system with automatic regeneration
-- Random encounters with various outcomes
-- Stats tracking (Health, Gold, Level, XP)
-- Level progression system
+- Rich encounter system:
+  - Monster battles with varying difficulty
+  - Treasure discoveries
+  - Trading posts with various items (Health Potions, Stamina Potions, Equipment)
+  - Inns for rest and healing
+  - Quest opportunities
+  - Mystical shrines
+  - Hidden traps
+- Stats tracking
+  - Health and Max Health
+  - Gold collection
+  - Level progression
+  - Experience (XP) gains
+  - Achievements (Highest Level, Longest Run)
+- Death and Rebirth system
+  - Reincarnate as a new character class
+  - Retain achievement progress
+- Stats sharing feature for comparing with friends
 - Simple and intuitive user interface
 - Browser-based gameplay, no installation required
+- Automatic game state saving
 
 ## How to Play
 
@@ -17,15 +37,19 @@ A simple yet engaging browser-based adventure game where players can embark on r
 2. Click the "Adventure!" button to start encountering random events
 3. Manage your stamina and health as you progress
 4. Collect gold and gain experience to level up
-5. Try to achieve the highest level possible!
+5. Visit traders to buy helpful items
+6. Rest at inns to restore health
+7. Try to achieve the highest level and longest survival run!
 
 ## Game Mechanics
 
+- **Character Class**: Determines your character's theme and appearance
 - **Stamina**: Regenerates over time, required for adventures
 - **Health**: Manage your health points to stay alive
-- **Gold**: Collect gold through various encounters
+- **Gold**: Collect gold through various encounters and spend at traders
 - **Experience**: Gain XP to level up and become stronger
 - **Level**: Increase your level to unlock better stats
+- **Achievements**: Track your highest level and longest survival run
 
 ## Technical Details
 
