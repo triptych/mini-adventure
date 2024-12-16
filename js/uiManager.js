@@ -164,10 +164,10 @@ export class UIManager {
         this.encounterEmojiEl.textContent = '🎲';
         this.encounterTextEl.textContent = 'Rolling the dice...';
 
-        // Countdown animation
+        // Countdown animation with increased delay to prevent flickering
         for (let i = 3; i > 0; i--) {
             this.countdownNumberEl.textContent = i;
-            await new Promise(resolve => setTimeout(resolve, 600));
+            await new Promise(resolve => setTimeout(resolve, 800)); // Increased from 600ms to 800ms
         }
 
         // Hide countdown and show encounter

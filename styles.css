@@ -45,6 +45,7 @@ body {
 #player-class {
     color: #666;
     text-transform: capitalize;
+    margin-right: 3rem; /* Added margin to move class name left */
 }
 
 .player-stats {
